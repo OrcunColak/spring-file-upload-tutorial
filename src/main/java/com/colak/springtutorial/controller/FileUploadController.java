@@ -22,7 +22,7 @@ public class FileUploadController {
     private final FileStorageService fileStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             fileStorageService.storeFle(file);
 

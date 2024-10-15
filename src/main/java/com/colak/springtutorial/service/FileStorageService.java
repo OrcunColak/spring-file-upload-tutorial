@@ -33,14 +33,16 @@ public class FileStorageService {
     public void storeFle(MultipartFile file) throws IOException {
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
         String sanitizedFilename = sanitizeFileName(originalFilename);
-        Path filePath = directory.resolve(sanitizedFilename);
-        log.info("File path: {}", filePath);
+        Path targetLocation = directory.resolve(sanitizedFilename).normalize();
 
-        Files.write(filePath, file.getBytes());
+        log.info("Store File path: {}", targetLocation);
+
+        Files.copy(file.getInputStream(), targetLocation);
     }
 
     public boolean deleteFile(@PathVariable String fileName) throws IOException {
         boolean result = false;
+
         String sanitizedFilename = sanitizeFileName(fileName);
         Path filePath = directory.resolve(sanitizedFilename).normalize();
         log.info("Delete file path: {}", sanitizedFilename);

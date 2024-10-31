@@ -1,9 +1,11 @@
 package com.colak.springtutorial.controller;
 
 import com.colak.springtutorial.service.FileStorageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +24,9 @@ public class FileUploadController {
     private final FileStorageService fileStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@Valid
+                                             @FileTypeRestriction(acceptedTypes = {MediaType.TEXT_PLAIN_VALUE, MediaType.IMAGE_PNG_VALUE})
+                                             @RequestParam("file") MultipartFile file) {
         try {
             fileStorageService.storeFle(file);
 

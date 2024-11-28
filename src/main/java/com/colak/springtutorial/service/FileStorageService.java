@@ -31,6 +31,8 @@ public class FileStorageService {
     }
 
     public void storeFle(MultipartFile file) throws IOException {
+        log.info("Content Type {}", file.getContentType());
+
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
         String sanitizedFilename = sanitizeFileName(originalFilename);
         Path targetLocation = directory.resolve(sanitizedFilename).normalize();
